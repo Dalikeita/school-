@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdventureLand - Final Boss Battle</title>
+    <!-- Du trenger ikke gjøre noe med CSS-koden! -->
+    <link rel="stylesheet" href="css-skal-ikke-roeres/index.css">
+</head>
+<body>
+
+    <div id="container">     
+
+        <!--
+            Life bars 
+            - For å endre på life bar må dere få tak i div etter id, for eksempel "nameless-knight-hp-div".                       
+        -->
+        <div class="life-bar-container knight-container">     
+            <img src="images/knight-head.png">
+            <div class="life-bar" id="nameless-knight-hp-div"></div><!-- hp (Health Points) til ridderen -->
+        </div>
+
+        <div class="life-bar-container julia-container">
+            <img src="images/julia-head.png">
+            <div class="life-bar" id="julia-the-archer-hp-div"></div><!-- hp (Health Points) til Julia -->
+        </div>
+
+        <div class="life-bar-container cat-container">
+            <img src="images/cat-head.png" alt="">
+            <div class="life-bar" id="the-cat-hp-div"></div><!-- hp (Health Points) til katten -->
+        </div>
+
+        <div class="life-bar-container big-boss-container">
+            <img src="images/big-boss-head.png" alt="">
+            <div class="life-bar" id="big-boss-hp-div"></div><!-- hp (Health Points) til Big boss -->
+        </div>
+
+
+        <!-- The knight -->
+        <img id="nameless-knight" src="images/knight.png" alt="">
+       
+        <!-- Julia the archer -->
+        <img id="julia-the-archer" src="images/julia-the-archer.png">
+
+        <!-- The Cat -->
+        <img id="the-cat" src="images/cat.png" alt="">
+
+        <!-- William the healer -->
+        <img id="william-the-healer" src="images/healer.png">
+
+        <!-- Jack the lumberjack -->
+        <img id="jack-the-lumberjack" src="images/lumberjack.png" alt="">
+
+        <!-- The big evil boss -->
+        <img id="big-boss" src="images/big-boss.png" alt="">
+
+        <!-- Noen ganger dukker et monster opp her -->
+        <img id="appearing-monster" src="" alt=" ">
+
+
+    </div><!-- end container-->
+
+
+    <!-- Her skrives det ut informasjon om hva brukeren gjør og hva som skjer. -->
+    <div id="output-div">
+        <p>Her skal det skrives ut hva som skjer underveis i spillet. </p>
+    </div>
+
+
+    <script>
+        // Her kommer din kode. Du kan også evt. velge å ha JS-koden i ekstern fil.
+  // variabler 
+  var namelessKnight = document.getElementById("nameless-knight-hp-div");
+var juliaTheArcher = document.getElementById("julia-the-archer-hp-div");
+var theCat = document.getElementById("the-cat-hp-div");
+var bigBoss = document.getElementById("big-boss-hp-div");
+const outputDiv = document.getElementById("output-div");
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function attackCharacter(characterName, hp) {
+    const damage = getRandomInt(5, 15);
+    hp -= damage;
+    if (hp < 0) hp = 0;
+    return hp;
+}
+
+function attackBigBoss(characterName, characterHP) {
+    var damage = getRandomInt(10, 20);
+    characterHP -= damage;
+    if (characterHP < 0) characterHP = 0;
+    return characterHP;
+}
+
+function battleRound() {
+    var characters = ["Nameless knight", "The Cat", "Julia the archer"];
+    var randomCharacter = characters[getRandomInt(0, 2)];
+
+    let attackerHP;
+    let defenderHP;
+    let attackerName;
+    let defenderName;
+
+    if (randomCharacter === "Nameless knight") {
+        attackerHP = namelessKnight.innerText;
+        defenderHP = bigBoss.innerText;
+        attackerName = "Nameless knight";
+        defenderName = "Big Boss";
+    } else if (randomCharacter === "The Cat") {
+        attackerHP = theCat.innerText;
+        defenderHP = bigBoss.innerText;
+        attackerName = "The Cat";
+        defenderName = "Big Boss";
+    } else {
+        attackerHP = juliaTheArcher.innerText;
+        defenderHP = bigBoss.innerText;
+        attackerName = "Julia the archer";
+        defenderName = "Big Boss";
+    }
+
+    outputDiv.innerHTML += `${attackerName} angriper ${defenderName}, og ${defenderName} mister ${damage} hp. <br>`;
+
+    defenderHP = attackBigBoss(defenderName, defenderHP);
+
+    if (defenderName === "Big Boss") {
+        bigBoss.innerText = defenderHP;
+    }
+}
+
+function checkBattleEnd() {
+    if (bigBoss.innerText <= 0) {
+        outputDiv.innerHTML += "Big Boss er beseiret! Gratulerer!<br>";
+        clearInterval(battleInterval);
+    }
+}
+
+const battleInterval = setInterval(() => {
+    battleRound();
+    checkBattleEnd();
+}, 2000);
+
+
+
+
+
+
+
+
+    </script>
+    
+</body>
+</html>
