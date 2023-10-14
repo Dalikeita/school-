@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AdventureLand - Final Boss Battle</title>
+    
     <!-- Du trenger ikke gjøre noe med CSS-koden! -->
     <link rel="stylesheet" href="css-skal-ikke-roeres/index.css">
 </head>
@@ -33,8 +34,11 @@
 
         <div class="life-bar-container big-boss-container">
             <img src="images/big-boss-head.png" alt="">
-            <div class="life-bar" id="big-boss-hp-div"></div><!-- hp (Health Points) til Big boss -->
+             <div class="life-bar" id="big-boss-hp-div"></div><!-- hp (Health Points) til Big boss -->
+             
+             
         </div>
+
 
 
         <!-- The knight -->
@@ -56,7 +60,15 @@
         <img id="big-boss" src="images/big-boss.png" alt="">
 
         <!-- Noen ganger dukker et monster opp her -->
-        <img id="appearing-monster" src="" alt=" ">
+        <img id="appearing-monster" src="images/slime.png" alt=" ">
+
+        <button id="attack-button" >attack</button>
+        <img id="appearing-monster" src="images/slime.png" alt="" style="display: none;">
+
+       
+        
+        
+        
 
 
     </div><!-- end container-->
@@ -67,7 +79,11 @@
         <p>Her skal det skrives ut hva som skjer underveis i spillet. </p>
     </div>
 
-
+function heroAttack (hero, tyarget) {
+    var damage = math.floor(math.random()* 20) + 10,
+    target -= damage;
+    return damage;
+}
     <script>
         // Her kommer din kode. Du kan også evt. velge å ha JS-koden i ekstern fil.
   // variabler 
@@ -75,81 +91,116 @@
 var juliaTheArcher = document.getElementById("julia-the-archer-hp-div");
 var theCat = document.getElementById("the-cat-hp-div");
 var bigBoss = document.getElementById("big-boss-hp-div");
-const outputDiv = document.getElementById("output-div");
+var appearingmonsterHP = document.getElementById("appearing-monster");
+var outputDiv = document.getElementById("output-div");
 
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+{ 
+
+}
+var knighthealth = 100;
+var juliahealth  = 100;
+var cathealth = 100;
+var bosshealth = 100;
+
+
+// Define maximum health
+var maxHealth = 50;
+
+// Function to get a random value for current health (for demonstration purposes)
+function getRandomCurrentHealth(maxHealth) {
+    return Math.floor(Math.random() * (maxHealth + 1));
 }
 
-function attackCharacter(characterName, hp) {
-    const damage = getRandomInt(5, 15);
-    hp -= damage;
-    if (hp < 0) hp = 0;
-    return hp;
+// Function to display the life bar
+function displayLifeBar(currentHealth, maxHealth, barlenght = 20) {
+    var percentage = (currentHealth / maxHealth) * 100;
+     percentage = math.min(100, math.max( 10, percentage)) ;
+     var barfill= math.round(( percentage/ 100) * barlenght);
+
+     //create the life bar string.
+     var bar= "[" .padend(barfill, "#").Padend(barlenght, " ") + "]";
+    console.log(`Life Bar: ${bar} ${percentage.toFixed(1)}%`);
 }
 
-function attackBigBoss(characterName, characterHP) {
-    var damage = getRandomInt(10, 20);
-    characterHP -= damage;
-    if (characterHP < 0) characterHP = 0;
-    return characterHP;
-}
+// Generate and display a random life bar
+var currentHealth = getRandomCurrentHealth(maxHealth);
+displayLifeBar(75, 100, 20);
 
-function battleRound() {
-    var characters = ["Nameless knight", "The Cat", "Julia the archer"];
-    var randomCharacter = characters[getRandomInt(0, 2)];
 
-    let attackerHP;
-    let defenderHP;
-    let attackerName;
-    let defenderName;
 
-    if (randomCharacter === "Nameless knight") {
-        attackerHP = namelessKnight.innerText;
-        defenderHP = bigBoss.innerText;
-        attackerName = "Nameless knight";
-        defenderName = "Big Boss";
-    } else if (randomCharacter === "The Cat") {
-        attackerHP = theCat.innerText;
-        defenderHP = bigBoss.innerText;
-        attackerName = "The Cat";
-        defenderName = "Big Boss";
-    } else {
-        attackerHP = juliaTheArcher.innerText;
-        defenderHP = bigBoss.innerText;
-        attackerName = "Julia the archer";
-        defenderName = "Big Boss";
+
+
+    document.getElementById("attack-button").addEventListener ("click", function () {
+            // Generer et tilfeldig tall mellom 0 og 1
+            var randomValue = Math.random();
     }
+        
+        
+        
+    // Sjekk om tallet er mindre enn 0.25 25% sjanse.
+            if (randomValue < 0.25) {
+                // Vis Slime-bildet
+                document.getElementById("appearing-monster").src = "images/slime.png";
+                document.getElementById("appearing-monster").style.display = "block";
+            } else {
+                // Hvis ikke, skjul Slime-bildet
+                document.getElementById("appearing-monster") .style.display = "none";
 
-    outputDiv.innerHTML += `${attackerName} angriper ${defenderName}, og ${defenderName} mister ${damage} hp. <br>`;
 
-    defenderHP = attackBigBoss(defenderName, defenderHP);
 
-    if (defenderName === "Big Boss") {
-        bigBoss.innerText = defenderHP;
-    }
 }
 
-function checkBattleEnd() {
-    if (bigBoss.innerText <= 0) {
-        outputDiv.innerHTML += "Big Boss er beseiret! Gratulerer!<br>";
-        clearInterval(battleInterval);
-    }
+
+            function bigBossAttack() {
+            var heroes = ["nameless-knight", "julia-the-archer", "the-cat"];
+            var randomHero = heroes[Math.floor(Math.random() * heroes.length)];
+            var damage = Math.floor(Math.random() * 30) + 10;
+            // Reduce the health of the randomly chosen hero.
+            // Implement code to display the attack and update health bars.
 }
 
-const battleInterval = setInterval(() => {
-    battleRound();
-    checkBattleEnd();
-}, 2000);
+            // Function to generate a random appearing monster (Slime or Bat).
+        function generateMonster() {
+            var randomMonster = monster[Math.floor(Math.random() * monster.length)];
+            // Show the random monster and set its health.
+            appearingMonsterHP.style.display = "block";
+            var monsterHealth = monsterHP[randomMonster];
+            // Implement code to display the appearance and handle hero attacks on the monster.
+        }
 
+        // Add event listeners for character clicks.
+        document.getElementById("nameless-knight").addEventListener("click", styleBtnclick ) ;
 
-
-
-
-
-
-
-    </script>
+             
+             var damage = heroAttack("Nameless knight", bossHealth);
+            // Output the result to the user
+            outputDiv.innerHTML = "Nameless knight attacks Big Boss and deals " + damage + " damage.";
     
+
+        document.getElementById("julia-the-archer").addEventListener("click", styleBtnclick ) ;
+        var  juliabutton = document.getElementById("julia-the-archer");
+        juliabutton.addEventListener ("click" ), function() {
+
+        }
+        var damage = heroAttack ("julia-the-archer", bosshealth);
+        var outputDiv = Document.getElementById("output-div") ;
+        outputDiv.innerHTML ="julia-the-archer attacks big boss and deals" + damage + "damage.";
+            // Implement Julia's attack logic
+    
+
+        document.getElementById("the-cat").addEventListener("click", styleBtnclick ) ;
+        var damage = heroAttack("the-cat", bosshealth);
+        outputDiv.innerHTML ="the-cat attacks big boss and deals" + damage + "damage.";
+            // Implement The Cat's attack logic
+        
+
+        // Periodically, Big Boss attacks and sometimes monsters appear.
+        setInterval(() => {
+            bigBossAttack();
+            if (Math.random() < 0.25) {
+                generateMonster();
+            }
+        }, 2000);
+    </script>
 </body>
 </html>
